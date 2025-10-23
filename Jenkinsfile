@@ -4,18 +4,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Build Docker Image"
-                bat "docker build -t mypythonflaskapp ."
+                bat 'docker build -t hello-world-flask .'
             }
         }
         stage('Run') {
             steps {
-                echo "Run application in Docker Container"
-                
-                // Remove container if it exists
-                bat 'docker rm -f mycontainer || exit 0'
-                
-                // Run container in detached mode
-                bat 'docker run -d -p 5000:5000 --name mycontainer mypythonflaskapp'
+                echo "Run Docker Container"
+                bat 'docker rm -f hello-container || exit 0'
+                bat 'docker run -d -p 5000:5000 --name hello-container hello-world-flask'
             }
         }
     }
@@ -24,7 +20,7 @@ pipeline {
             echo 'Pipeline completed successfully!'
         }
         failure {
-            echo 'Pipeline failed. Please check the logs.'
+            echo 'Pipeline failed. Check logs.'
         }
     }
 }
